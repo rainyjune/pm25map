@@ -9,3 +9,11 @@ body {
 #container {
   height: 100%;
 }
+
+
+.markerContentStyle {
+  min-width: 80px;
+  max-width: 120px;
+  border: 1px solid blue;
+  text-align: center;
+}

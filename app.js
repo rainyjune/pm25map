@@ -11,7 +11,8 @@
 }(function($){
   
   var mapObj = null,
-      citylocation = null;
+      citylocation = null,
+      aqiTips = null;
   
   loadScript();
   
@@ -28,9 +29,14 @@
     });
   };
 
-  $.getJSON("citylocation.baidu.json", function(data){
+  $.getJSON("citylocation.amap.json", function(data){
     citylocation = data;
-    $.getJSON("citylist.baidu.json", getAQI);
+    
+    $.getJSON("tips.baidu.json", function(data){
+      aqiTips = data;
+      debugger;
+      $.getJSON("citylist.baidu.json", getAQI);
+    });
   });
 
   function getAQI(citylist){
@@ -44,7 +50,7 @@
             //console.log("#", city.name, data);
             showCityAQI(city.name, data.current_city);
           },
-          error: function(){
+          error: function(xhr, errorType, error){
             debugger;
           }
         });
@@ -54,17 +60,15 @@
   }
   
   function showCityAQI(cityShortName, aqiData) {
+    if (!citylocation[cityShortName]) return ;
     var cityLoc = citylocation[cityShortName]["point"];
-    /*
-    var infoWindow = new AMap.InfoWindow({  
-      content: aqiData.aqi  //使用默认信息窗体框样式，显示信息内容
-    }); 
-    var cityLoc = citylocation[cityShortName]["point"];
-    console.log(cityShortName, aqiData.aqi, cityLoc);
-    infoWindow.open(mapObj, new AMap.LngLat(cityLoc.x/100000, cityLoc.y/100000));
-    */
-    var marker = new AMap.Marker({				  
-				icon:"http://webapi.amap.com/images/marker_sprite.png",
+
+    var markerContent = document.createElement("div");
+    markerContent.className = "markerContentStyle";
+    markerContent.style.backgroundColor = aqiTips[aqiData.level]["bgColor"];
+    markerContent.innerHTML = cityShortName + aqiData.aqi;
+    var marker = new AMap.Marker({
+      content: markerContent,
 				position: new AMap.LngLat(cityLoc.x/100000, cityLoc.y/100000)
 			});
 			marker.setMap(mapObj);  //在地图上添加点

@@ -1,25 +1,30 @@
 window.onload = initAll;
 function initAll() {
-  var citylistLocation = new Array(citylist.length);
+  var citylistLocation = {};
   var f = 0;
   
   AMap.service(["AMap.Geocoder"], function() {
     var geocoder = new AMap.Geocoder();
     for(var i = 0; i < citylist.length; i++) {
       (function(i){
-        geocoder.getLocation(citylist[i], function(status, result){
+        var thisCity = citylist[i];
+        geocoder.getLocation(thisCity, function(status, result){
           f++;
           if(status === 'complete' && result.info === 'OK'){
             var thisLocation = result.geocodes[0].location;
-            citylistLocation[i] = {
-              "lat": thisLocation.lat,
-              "lng": thisLocation.lng
+            citylistLocation[thisCity] = {
+              "point": {
+                "lat": thisLocation.lat * 100000,
+                "lng": thisLocation.lng * 100000
+              }
             };
           } else {
-            console.warn("Error:", citylist[i], i);
-            citylistLocation[i] = {
-              "lat": 0,
-              "lng": 0
+            console.warn("Error:", thisCity, i);
+            citylistLocation[thisCity] = {
+              "point": {
+                "lat": 0,
+                "lng": 0
+              }
             };
           }
           if (f == citylist.length) {
