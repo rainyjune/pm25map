@@ -55,7 +55,7 @@
             showCityAQI(city.name, data.current_city);
           },
           error: function(xhr, errorType, error){
-            debugger;
+            console.warn("GetAQI Error:", errorType, error, city.name);
           }
         });
       })(item);
