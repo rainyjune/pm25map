@@ -22,7 +22,7 @@
         zoom: 4
       }),
       layers: [new AMap.TileLayer({
-				tileUrl:"http://mt{1,2,3,0}.google.cn/vt/lyrs=m@142&hl=zh-CN&gl=cn&x=[x]&y=[y]&z=[z]&s=Galil" //取图地址
+				tileUrl:"http://mt{1,2,3,0}.google.cn/vt/lyrs=m@142&hl=zh-CN&gl=cn&x=[x]&y=[y]&z=[z]&s=Galil"
 			})]
     });
     /*
@@ -61,6 +61,7 @@
           data: {cname: city.name, c: city.code},
           dataType: "json",
           success: function(data) {
+            if (!data || !data.current_city || !data.current_city.level) return ;
             showCityAQI(city.name, data.current_city);
           },
           error: function(xhr, errorType, error){
