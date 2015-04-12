@@ -39,8 +39,8 @@ function initAll() {
               console.warn("Error:", thisCity, i);
               citylistLocation[thisCity] = {
                 "point": {
-                  "y": predefinedThisCity ? predefinedThisCity.lat : 0,
-                  "x": predefinedThisCity ? predefinedThisCity.lng : 0
+                  "y": predefinedThisCity ? predefinedThisCity.lat * 100000 : 0,
+                  "x": predefinedThisCity ? predefinedThisCity.lng * 100000 : 0
                 }
               };
             }
