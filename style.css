@@ -19,6 +19,7 @@ body {
 }
 
 .amap-logo,
-.amap-maptype-list {
+.amap-maptype-list,
+.amap-copyright {
   display: none !important;
 }
