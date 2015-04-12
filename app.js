@@ -33,16 +33,20 @@
       var toolBar = new AMap.ToolBar();
       mapObj.addControl(toolBar);		
     });
-  };
-
-  $.getJSON("data/citylocation.amap.json", function(data){
-    citylocation = data;
     
-    $.getJSON("data/tips.baidu.json", function(data){
-      aqiTips = data;
-      $.getJSON("data/citylist.baidu.json", getAQI);
+    showAQIData();
+  };
+  
+  function showAQIData() {
+    $.getJSON("data/citylocation.amap.json", function(data){
+      citylocation = data;
+      
+      $.getJSON("data/tips.baidu.json", function(data){
+        aqiTips = data;
+        $.getJSON("data/citylist.baidu.json", getAQI);
+      });
     });
-  });
+  }
 
   function getAQI(citylist){
     $.each(citylist, function(index, item) {
