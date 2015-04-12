@@ -1,7 +1,7 @@
 window.onload = initAll;
 function initAll() {
   
-  $.getJSON("citylist.json", buildCityLocation);
+  $.getJSON("../data/citylist.json", buildCityLocation);
   
   function buildCityLocation(citylist) {
     var citylistLocation = {};
@@ -32,7 +32,8 @@ function initAll() {
               };
             }
             if (f == citylist.length) {
-              console.log(JSON.stringify(citylistLocation));
+              console.log();
+              document.getElementById("container").value = JSON.stringify(citylistLocation);
             }
           });
         })(i);
