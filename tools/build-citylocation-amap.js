@@ -9,11 +9,11 @@ function initAll() {
     
     /* AMap Geocoder does not return correct location values for some cities. */
     var preDefinedLocation = {
-      "台北": {
+      "台北市": {
         "lng": 121.519421,
         "lat": 25.036553,
       },
-      "高雄": {
+      "高雄市": {
         "lng": 120.283515,
         "lat": 22.638614
       }
@@ -26,8 +26,9 @@ function initAll() {
           var thisCity = citylist[i];
           geocoder.getLocation(thisCity, function(status, result){
             f++;
+            var predefinedThisCity = preDefinedLocation[thisCity];
             if(status === 'complete' && result.info === 'OK'){
-              var thisLocation = preDefinedLocation[thisCity] ? preDefinedLocation[thisCity] : result.geocodes[0].location;
+              var thisLocation = predefinedThisCity ? predefinedThisCity : result.geocodes[0].location;
               citylistLocation[thisCity] = {
                 "point": {
                   "y": thisLocation.lat * 100000,
@@ -38,13 +39,12 @@ function initAll() {
               console.warn("Error:", thisCity, i);
               citylistLocation[thisCity] = {
                 "point": {
-                  "y": 0,
-                  "x": 0
+                  "y": predefinedThisCity ? predefinedThisCity.lat : 0,
+                  "x": predefinedThisCity ? predefinedThisCity.lng : 0
                 }
               };
             }
             if (f == citylist.length) {
-              console.log();
               document.getElementById("container").value = JSON.stringify(citylistLocation);
             }
           });
