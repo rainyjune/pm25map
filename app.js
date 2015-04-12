@@ -20,8 +20,12 @@
     mapObj = new AMap.Map("container", {
       view: new AMap.View2D({
         zoom: 4
-      })
+      }),
+      layers: [new AMap.TileLayer({
+				tileUrl:"http://mt{1,2,3,0}.google.cn/vt/lyrs=m@142&hl=zh-CN&gl=cn&x=[x]&y=[y]&z=[z]&s=Galil" //取图地址
+			})]
     });
+    /*
     mapObj.plugin(["AMap.MapType"],function(){
       var mapType= new AMap.MapType({
         defaultType:1,
@@ -29,6 +33,7 @@
       });
       mapObj.addControl(mapType);
     });
+    */
     mapObj.plugin(["AMap.ToolBar"],function(){
       var toolBar = new AMap.ToolBar();
       mapObj.addControl(toolBar);		
