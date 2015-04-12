@@ -17,3 +17,8 @@ body {
   border: 1px solid blue;
   text-align: center;
 }
+
+.amap-logo,
+.amap-maptype-list {
+  display: none !important;
+}
