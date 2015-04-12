@@ -16,7 +16,6 @@
   
   loadScript();
   
-  
   window.initMap = function(){
     mapObj = new AMap.Map("container", {
       view: new AMap.View2D({
@@ -36,13 +35,12 @@
     });
   };
 
-  $.getJSON("citylocation.amap.json", function(data){
+  $.getJSON("data/citylocation.amap.json", function(data){
     citylocation = data;
     
-    $.getJSON("tips.baidu.json", function(data){
+    $.getJSON("data/tips.baidu.json", function(data){
       aqiTips = data;
-      debugger;
-      $.getJSON("citylist.baidu.json", getAQI);
+      $.getJSON("data/citylist.baidu.json", getAQI);
     });
   });
 
@@ -54,7 +52,6 @@
           data: {cname: city.name, c: city.code},
           dataType: "json",
           success: function(data) {
-            //console.log("#", city.name, data);
             showCityAQI(city.name, data.current_city);
           },
           error: function(xhr, errorType, error){
@@ -76,10 +73,9 @@
     markerContent.innerHTML = cityShortName + aqiData.aqi;
     var marker = new AMap.Marker({
       content: markerContent,
-				position: new AMap.LngLat(cityLoc.x/100000, cityLoc.y/100000)
-			});
-			marker.setMap(mapObj);  //在地图上添加点
-      
+      position: new AMap.LngLat(cityLoc.x/100000, cityLoc.y/100000)
+    });
+    marker.setMap(mapObj);
   }
   
   function loadScript(){
