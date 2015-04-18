@@ -13,6 +13,6 @@ foreach($cityListArr as &$city) {
   
 }
 
-echo "<textarea>";
-echo (json_encode($cityListArr));
+echo "<textarea style='width:100%;min-height: 500px;'>";
+echo (json_encode($cityListArr, JSON_PRETTY_PRINT));
 echo "</textarea>";
