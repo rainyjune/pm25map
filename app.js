@@ -13,13 +13,16 @@
   var mapObj = null,
       citylocation = null,
       aqiTips = null;
+  var defaultZoom = 4;
+  var currentZoom = 4;
+  var level2Markers = {};
   
   loadScript();
   
   window.initMap = function(){
     mapObj = new AMap.Map("container", {
       view: new AMap.View2D({
-        zoom: 4
+        zoom: defaultZoom
       }),
       layers: [new AMap.TileLayer({
 				tileUrl:"http://mt{1,2,3,0}.google.cn/vt/lyrs=m@142&hl=zh-CN&gl=cn&x=[x]&y=[y]&z=[z]&s=Galil"
@@ -38,6 +41,18 @@
       var toolBar = new AMap.ToolBar();
       mapObj.addControl(toolBar);		
     });
+    
+    AMap.event.addListener(mapObj,'zoomchange',function(e){
+			currentZoom = mapObj.getZoom();
+      var toggleFlag = currentZoom > 5;
+      $.each(level2Markers, function(index, item) {
+        if (toggleFlag) {
+          item.show();
+        } else {
+          item.hide();
+        }
+      });
+		});
     
     showAQIData();
   };
@@ -62,7 +77,7 @@
           dataType: "json",
           success: function(data) {
             if (!data || !data.current_city || !data.current_city.level) return ;
-            showCityAQI(city.name, data.current_city);
+            showCityAQI(city, data.current_city);
           },
           error: function(xhr, errorType, error){
             console.warn("GetAQI Error:", errorType, error, city.name);
@@ -73,7 +88,10 @@
     });
   }
   
-  function showCityAQI(cityShortName, aqiData) {
+  function showCityAQI(city, aqiData) {
+    var cityShortName = city.name;
+    var cityLevel = city.level;
+    var cityCode = city.code;
     if (!citylocation[cityShortName]) return ;
     var cityLoc = citylocation[cityShortName]["point"];
 
@@ -83,9 +101,14 @@
     markerContent.innerHTML = cityShortName + aqiData.aqi;
     var marker = new AMap.Marker({
       content: markerContent,
+      topWhenMouseOver: true,
+      visible: (cityLevel > 1 && currentZoom <= 5) ? false: true , /* TODO */
       position: new AMap.LngLat(cityLoc.x/100000, cityLoc.y/100000)
     });
     marker.setMap(mapObj);
+    if (cityLevel > 1) {
+      level2Markers[cityCode] = marker;
+    }
   }
   
   function loadScript(){
