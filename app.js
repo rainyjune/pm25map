@@ -28,15 +28,6 @@
 				tileUrl:"http://mt{1,2,3,0}.google.cn/vt/lyrs=m@142&hl=zh-CN&gl=cn&x=[x]&y=[y]&z=[z]&s=Galil"
 			})]
     });
-    /*
-    mapObj.plugin(["AMap.MapType"],function(){
-      var mapType= new AMap.MapType({
-        defaultType:1,
-        showRoad:true
-      });
-      mapObj.addControl(mapType);
-    });
-    */
     mapObj.plugin(["AMap.ToolBar"],function(){
       var toolBar = new AMap.ToolBar();
       mapObj.addControl(toolBar);		
