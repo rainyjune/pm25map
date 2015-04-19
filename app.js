@@ -15,6 +15,7 @@
       aqiTips = null;
   var defaultZoom = 4;
   var currentZoom = 4;
+  var level2CityVisibleZoom = 6;
   var level2Markers = {};
   
   loadScript();
@@ -35,7 +36,7 @@
     
     AMap.event.addListener(mapObj,'zoomchange',function(e){
 			currentZoom = mapObj.getZoom();
-      var toggleFlag = currentZoom > 5;
+      var toggleFlag = currentZoom >= level2CityVisibleZoom;
       $.each(level2Markers, function(index, item) {
         if (toggleFlag) {
           item.show();
@@ -93,7 +94,7 @@
     var marker = new AMap.Marker({
       content: markerContent,
       topWhenMouseOver: true,
-      visible: (cityLevel > 1 && currentZoom <= 5) ? false: true , /* TODO */
+      visible: (cityLevel > 1 && currentZoom < level2CityVisibleZoom) ? false: true , /* TODO */
       position: new AMap.LngLat(cityLoc.x/100000, cityLoc.y/100000)
     });
     marker.setMap(mapObj);
